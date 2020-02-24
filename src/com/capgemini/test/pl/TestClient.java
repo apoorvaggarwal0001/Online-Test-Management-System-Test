@@ -24,8 +24,9 @@ public class TestClient {
 			System.out.println("Select Operation");
 			System.out.println("1. Add Test");
 			System.out.println("2. Show All Test");
-			System.out.println("3. Delete Test");
-			System.out.println("4. Search Test");
+			System.out.println("3. Show All Test Questions");
+			System.out.println("4. Delete Test");
+			//System.out.println("5. Search Test");
 			
 			int op=sc.nextInt();
 			
@@ -41,6 +42,20 @@ public class TestClient {
 			case 2:
 				try {
 					service.showAllTests();
+				}catch(SQLException e) {
+					System.err.println(e.getMessage());
+				}
+				break;
+			case 3:
+				try {
+					service.showAllTestQuestions();
+				}catch(SQLException e) {
+					System.err.println(e.getMessage());
+				}
+				break;
+			case 4:
+				try {
+					service.deleteTest();
 				}catch(SQLException e) {
 					System.err.println(e.getMessage());
 				}

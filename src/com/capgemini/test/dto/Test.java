@@ -9,22 +9,32 @@ public class Test {
 	private int testId;
 	private String testTitle;
 	private int testDuration;
-    private int testTotalMarks;
-	private int testMarksScored;
+	private String testQuestions;
+	//  private int testTotalMarks;
+	//	private int testMarksScored;
 	//private LocalTime startTime;
 	//private LocalTime endTime;
 	
 	
-	public Test(int testId, String testTitle, int testDuration, int testTotalMarks) {
+	public Test(int testId, String testTitle, int testDuration, String testQuestions) {
 		super();
 		this.testId = testId;
 		this.testTitle = testTitle;
 		this.testDuration = testDuration;
-		this.testTotalMarks = testTotalMarks;
+		//this.testTotalMarks = testTotalMarks;
+		this.testQuestions= testQuestions;
 	}
 	
 	public Test() {
 		// TODO Auto-generated constructor stub
+	}
+
+	public String getTestQuestions() {
+		return testQuestions;
+	}
+
+	public void setTestQuestions(String testQuestions) {
+		this.testQuestions = testQuestions;
 	}
 
 	public void setTestId(int testId) {
@@ -39,19 +49,15 @@ public class Test {
 		this.testDuration = testDuration;
 	}
 
-	@Override
-	public String toString() {
-		return "Test [testId=" + testId + ", testTitle=" + testTitle + ", testDuration=" + testDuration
-				+ ", testTotalMarks=" + testTotalMarks + ", testMarksScored=" + testMarksScored + "]";
-	}
+	
 
-	public void setTestTotalMarks(int testTotalMarks) {
-		this.testTotalMarks = testTotalMarks;
-	}
-
-	public void setTestMarksScored(int testMarksScored) {
-		this.testMarksScored = testMarksScored;
-	}
+//	public void setTestTotalMarks(int testTotalMarks) {
+//		this.testTotalMarks = testTotalMarks;
+//	}
+//
+//	public void setTestMarksScored(int testMarksScored) {
+//		this.testMarksScored = testMarksScored;
+//	}
 
 //	public void setStartTime(Time time) {
 //		this.startTime = startTime;
@@ -71,12 +77,18 @@ public class Test {
 		return testDuration;
 	}
 
-	public int getTestTotalMarks() {
-		return testTotalMarks;
+	@Override
+	public String toString() {
+		return "All Tests--> testId= " + testId + ", testTitle= " + testTitle + ", testDuration= " + testDuration
+				+ ", testQuestions= " + testQuestions;
 	}
-	public int getTestMarksScored() {
-		return testMarksScored;
-	}
+
+//	public int getTestTotalMarks() {
+//		return testTotalMarks;
+//	}
+//	public int getTestMarksScored() {
+//		return testMarksScored;
+//	}
 
 //	public LocalTime getStartTime() {
 //		return startTime;

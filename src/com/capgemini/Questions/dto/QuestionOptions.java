@@ -1,5 +1,7 @@
 package com.capgemini.Questions.dto;
 
+import java.util.HashMap;
+
 public class QuestionOptions extends Question{
 	int id1;
 	String ans1;
@@ -68,5 +70,6 @@ public class QuestionOptions extends Question{
 		this.ans5 = ans5;
 	}
 	public QuestionOptions() {
-	}	
+	}
+
 }

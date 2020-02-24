@@ -13,7 +13,7 @@ public class QuestionDB {
 	}
 	public static Connection myconnection() throws SQLException{
 		if(connection==null) {
-			connection=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system","manager");
+			connection=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system","1234");
 			System.out.println("\nConnection Established!!");}
 		return connection;
 		

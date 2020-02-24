@@ -1,18 +1,13 @@
 package com.capgemini.Questions.service;
 
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
-import com.capgemini.Questions.dao.QuestionDao;
-import com.capgemini.Questions.dao.QuestionDaoImpl;
-import com.capgemini.Questions.dao.QuestionOptionDao;
-import com.capgemini.Questions.dao.QuestionOptionsDaoImpl;
+import com.capgemini.Questions.dao.*;
+import com.capgemini.Questions.dto.*;
 import com.capgemini.Questions.dto.Question;
-import com.capgemini.Questions.dto.QuestionOptions;
-import com.capgemini.Questions.exception.OptionException;
-import com.capgemini.Questions.exception.QuestionException;
+import com.capgemini.Questions.dto.Test;
+import com.capgemini.Questions.exception.*;
 
 public class QuestionServiceImpl implements QuestionService {
 	QuestionDao questiondao;
@@ -30,26 +25,31 @@ public class QuestionServiceImpl implements QuestionService {
 
 	@Override
 	public void showAllQuestions() throws SQLException {
+		Question question= new Question();
+		question.setQuestionId(1001);
 		questionMap = questiondao.getAllQuestions();
+		optionMap = questionoptiondao.getAllOptions(question.getQuestionId());
 		Set<Integer> keyset = questionMap.keySet();
+		Set<Integer> keyset1 = optionMap.keySet();
 		for (Integer i : keyset) {
-			System.out.println(questionMap.get(i));
+			System.out.println("\n"+questionMap.get(i));
+			questionoptiondao.getAllOptions(question.getQuestionId());
+				System.out.print("\n"+optionMap.get(i)+" ");
+			System.out.println("\n");
 		}
 	}
 
-	@Override
-	public void showAllOptions() throws SQLException {
-		System.out.println("Enter question id to view as a Question-Options: ");
-		int questionId=input.nextInt();
-		optionMap = questionoptiondao.getAllOptions(questionId);		
-		questionoptiondao.getAllOptions(questionId);
-		Set<Integer> keyset = optionMap.keySet();
-		for (Integer i: keyset ) {
-			System.out.println(optionMap.get(i));
-		}
-		//System.out.println("1."+questionOptions.getAns1()+" 2."+questionOptions.getAns2()+" 3."+questionOptions.getAns3()+" 4."+questionOptions.getAns4()+" 5."+questionOptions.getAns5());
-
-	}
+//	@Override
+//	public void showAllOptions() throws SQLException {
+//		System.out.println("Enter question id to view as a Question-Options: ");
+//		int questionId = input.nextInt();
+//		optionMap = questionoptiondao.getAllOptions(questionId);
+//		questionoptiondao.getAllOptions(questionId);
+//		Set<Integer> keyset = optionMap.keySet();
+//		for (Integer i : keyset) {
+//			System.out.println(optionMap.get(i));
+//		}
+//	}
 
 	@Override
 	public void addQuestions() throws SQLException, QuestionException {
@@ -111,54 +111,85 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public void addOption(int questionId) throws SQLException,OptionException {
-		questionOptions=null;
-		questionOptions=new QuestionOptions();
-		questionOptions.setId1(questionId);
+	public void addOption() throws SQLException, OptionException {
+		questionOptions = null;
+		questionOptions = new QuestionOptions();
+		System.out.println("Enter Question Id:");
+		int id1 = input.nextInt();
+		questionOptions.setId1(id1);
 		System.out.println("\nEnter Option 1:");
 		input.nextLine();
 		String ans1 = input.nextLine();
 		if (ans1.isEmpty())
 			throw new OptionException("Invalid Option String!!");
-		else
+		else {
 			questionOptions.setAns1(ans1);
+		}
 		System.out.println("\nEnter Option 2:");
-		input.nextLine();
 		String ans2 = input.nextLine();
 		if (ans2.isEmpty())
 			throw new OptionException("Invalid Option String!!");
-		else
+		else {
 			questionOptions.setAns2(ans2);
+		}
 		System.out.println("\nEnter Option 3:");
-		input.nextLine();
+
 		String ans3 = input.nextLine();
 		if (ans3.isEmpty())
 			throw new OptionException("Invalid Option String!!");
 		else
 			questionOptions.setAns3(ans3);
 		System.out.println("\nEnter Option 4:");
-		input.nextLine();
+
 		String ans4 = input.nextLine();
 		if (ans4.isEmpty())
 			throw new OptionException("Invalid Option String!!");
 		else
 			questionOptions.setAns4(ans4);
 		System.out.println("\nEnter Option 5:");
-		input.nextLine();
+
 		String ans5 = input.nextLine();
 		if (ans5.isEmpty())
 			throw new OptionException("Invalid Option String!!");
 		else
 			questionOptions.setAns5(ans5);
-		
-		
+
+		if (questionoptiondao.addOption(id1))
+			System.out.println("Question Added!");
+		else
+			System.out.println("Question Already present!");
 	}
 
 	@Override
 	public void deleteOption() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
+	@Override
+	public void viewQuestion(int questionId) throws SQLException {
+		questiondao.searchQuestion(questionId);
+	}
 
+	@Override
+	public void viewOption(int id1) throws SQLException {
+		questionoptiondao.viewOption(id1);
+	}
+
+	@Override
+	public void addTestQuestion(Test testId, Question question) throws SQLException {
+		QuestionOptions questionOptions = new QuestionOptions();
+		HashMap<Integer, Question> questionMap = new HashMap<>();
+		HashMap<Integer, QuestionOptions> optionsMap = new HashMap<>();
+		Scanner input = new Scanner(System.in);
+		viewQuestion(question.getQuestionId());
+		questionOptions.setId1(question.getQuestionId());
+		viewOption(questionOptions.getId1());
+		question.setChosenAnswer(-1);
+		while (question.getChosenAnswer() <= 0 || question.getChosenAnswer() > 5) {
+			System.out.println("Enter Choice: (1-5)");
+			question.setChosenAnswer(input.nextInt());
+		}
+
+	}
 }

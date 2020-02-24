@@ -46,12 +46,12 @@ public class QuestionOptionsDaoImpl implements QuestionOptionDao {
 	}
 
 	@Override
-	public boolean addOption(int questionId) throws SQLException  {
-		question = questiondao.searchQuestion(questionId);
-		if (question == null) {
+	public boolean addOption(int id1) throws SQLException  {
 			pst = null;
+			questionOptions=null;
+			questionOptions=new QuestionOptions();
 			pst = connection.prepareStatement("insert into questionoptions values(?,?,?,?,?,?)");
-			pst.setInt(1, questionId);
+			pst.setInt(1, id1);
 			pst.setString(2, questionOptions.getAns1());
 			pst.setString(3, questionOptions.getAns2());
 			pst.setString(4, questionOptions.getAns3());
@@ -70,8 +70,6 @@ public class QuestionOptionsDaoImpl implements QuestionOptionDao {
 			} else
 				return false;
 
-		}
-		return false;
 	}
 
 	@Override
@@ -84,6 +82,27 @@ public class QuestionOptionsDaoImpl implements QuestionOptionDao {
 	public boolean updateOption(int questionId) throws SQLException {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void viewOption(int id1) throws SQLException {
+		pst = connection.prepareStatement("select*from questionoptions where id1=?");
+		pst.setInt(1, id1);
+		rs = null;
+		rs = pst.executeQuery();
+		if (rs.next()) {
+			questionOptions = null;
+			questionOptions = new QuestionOptions();
+			questionOptions.setId1(rs.getInt(1));
+			questionOptions.setAns1(rs.getString(2));
+			questionOptions.setAns2(rs.getString(3));
+			questionOptions.setAns3(rs.getString(4));
+			questionOptions.setAns4(rs.getString(5));
+			questionOptions.setAns5(rs.getString(6));
+			
+			System.out.println("\n\tOptions. "+"  1. "+rs.getString(2)+"  2. "+rs.getString(3)+"  3. "+rs.getString(4)+"  4. "+rs.getString(5)+"  5. "+rs.getString(6));
+		}
+		
 	}
 
 }

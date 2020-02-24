@@ -36,7 +36,7 @@ public class QuestionDaoImpl implements QuestionDao{
 			question.setQuestionMarks(rs.getInt(4));
 
 			questionMap.put(rs.getInt(1), question);
-		}
+		}		
 		return questionMap;
 		
 	}
@@ -84,6 +84,8 @@ public class QuestionDaoImpl implements QuestionDao{
 			question.setQuestionTitle(rs.getString(2));
 			question.setQuestionMarks(rs.getFloat(3));
 			question.setQuestionAnswer(rs.getInt(4));
+			int qno=rs.getInt(1)%1000;
+			System.out.println("\n\tQuestion."+qno+" "+rs.getString(2)+"\t\tMarks:"+rs.getFloat(4));
 		}
 		return null;
 	}
